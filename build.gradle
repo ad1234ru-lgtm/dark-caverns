@@ -1,0 +1,45 @@
+plugins {
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    // Официальная версия плагина NeoGradle для Minecraft 1.21.1
+    id 'net.neoforged.gradle.userdev' version '7.1.38'
+}
+
+version = '1.2.1-ported'
+group = 'com.freeranger.dark_caverns'
+
+base {
+    archivesName = 'dark_caverns'
+}
+
+// Строго Java 21 для Minecraft 1.21.1
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+repositories {
+    mavenLocal()
+    maven {
+        name = 'GeckoLib'
+        url = 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+    }
+    mavenCentral()
+}
+
+dependencies {
+    // Жестко прописанные рабочие версии для 1.21.1
+    implementation "net.neoforged:neoforge:21.1.172"
+    implementation "software.bernie.geckolib:geckolib-neoforge-1.21:4.5.6"
+}
+
+neoForge {
+    version = "21.1.172"
+}
+
+sourceSets.main.resources { 
+    srcDir 'src/generated/resources' 
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
